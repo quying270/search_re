@@ -1,0 +1,17 @@
+
+.imgs-item{
+  box-sizing: border-box;
+  padding: 5rpx;
+  position: relative;
+}
+.imgs-item image{
+  display: block;
+  width: 100%;
+}
+.imgs-item .download-btn{
+  position: absolute;
+  right: 20rpx;
+  bottom: 20rpx;
+  width: 60rpx;
+  height: 60rpx;
+}

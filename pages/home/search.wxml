@@ -1,0 +1,17 @@
+<!--pages/home/search.wxml-->
+<!-- <text>pages/home/search.wxml</text> -->
+<image class='bg' src='/images/bg.jpg'></image>
+<view class='container'>
+  <view class='search-view'>
+    <text class='logo'>图片搜索</text>
+    <form class='search-form' bindsubmit='query'>
+      <button form-type='submit'>
+        <image src='/images/search.png'></image>
+      </button>
+      <input name='q'></input>
+    </form>
+    <view class='like'>
+      <navigator url='/pages/home/list?q={{item}}' wx:for='{{like}}'>{{item}}</navigator>
+    </view>
+  </view>
+</view>
