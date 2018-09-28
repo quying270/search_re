@@ -1,3 +1,10 @@
+<!-- 图片列表 -->
+<template name="list">
+  <view class='imgs-list'>
+    <template is="item" wx:for="{{list}}" data="{{...item}}" />
+  </view>
+</template>
+<!-- 图片项目 -->
 <template name="item">
   <view class='imgs-item'>
     <image src='{{thumb}}' mode='widthFix' bindtap='showImage' data-src="{{middle}}"></image>

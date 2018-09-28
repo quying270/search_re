@@ -4,14 +4,8 @@
 <view class='container'>
 <!-- scroll-y="{{false}}" -->
   <scroll-view class='imgs-container' scroll-y bindscrolltolower="more">
-    <view class='imgs-list'>
-      <template is="item" wx:for="{{imgs.left}}" data="{{...item}}" />
-    </view>
-    <view class='imgs-list'>
-      <!-- <view class='imgs-item' wx:for="{{imgs.right}}">
-        <image src='{{item.thumb}}' mode='widthFix'></image>
-      </view> -->
-      <template is="item" wx:for="{{imgs.right}}" data="{{...item}}" />
+    <view class='imgs-list-view'>
+      <template is="list" wx:for="{{imgs}}" wx:for-item="list" data="{{list}}"></template>
     </view>
   </scroll-view>
 </view>

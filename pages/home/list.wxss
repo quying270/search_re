@@ -1,15 +1,17 @@
 /* pages/home/list.wxss */
-@import '/template/image.wxss'
+
+@import '/template/image.wxss';
 
 .imgs-container{
   box-sizing: border-box;
-  /* display: flex; */
-  height: 100vh;
+  /* height: 100vh; */
+  height: 700px;
   width: 100vw;
   padding: 5rpx;
 }
+.imgs-list-view{
+  display: flex;
+} 
 .imgs-list{
-  /* flex: 1; */
-  float: left;
-  width: 50%;
+  flex: 1;
 }

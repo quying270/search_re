@@ -9,26 +9,30 @@ Page({
    * 页面的初始数据
    */
   data: {
-    word: "狗", //搜索的内容
+    word: "猫", //搜索的内容
     page: 1, //加载第几页
     row: 30, //每页加载的条目
+    list: 3, //按多少列显示
+    org: [], //图片的原始数据
     //存放图片的img对象
-    imgs: {
-      left: [],
-      right: []
-    },
+    imgs: [],
     //存放图片高度的对象
-    height: {
-      left: 0,
-      right: 0
-    }
+    height: []
+  },
+  //生成数据容器
+  creatcontainer(){
+    this.data.height = new Array(this.data.list).fill(0);
+    this.data.imgs = new Array(this.data.list).fill(0).map(()=>[]);
   },
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    this.data.word = options.q;
+    this.creatcontainer();
+    this.data.word = options.q || this.data.word;
     this.showPage();
+    //显示标题
+    wx.setNavigationBarTitle({ title: this.data.word });
   },
   //请求页面数据
   showPage(){
@@ -42,22 +46,30 @@ Page({
   },
   //数据筛选
   showData(data){
+    //保存原始数据
+    this.data.org.push(...data);
+    //便利分配
     data.forEach((img)=>{
-      if (this.data.height.left <= this.data.height.right){
-        this.data.imgs.left.push(img);
-        this.data.height.left += img.height;
-      }else{
-        this.data.imgs.right.push(img);
-        this.data.height.right += img.height;
-      }
+      //从数组中找到最小数的索引
+      let min = Math.min(...this.data.height);
+      //根据最小索引找到图片数组push添加图片
+      let index = this.data.height.findIndex(item => min === item);
+      this.data.imgs[index].push(img);
+      //更新高度数组
+      this.data.height[index] += img.height;
     })
+    console.log(this.data);
     //数据更新
     this.setData({
       imgs: this.data.imgs
     });
+    //关闭加载动画
+    wx.hideNavigationBarLoading();
   },
   //查询数据
   query(){
+    //显示加载动画
+    wx.showNavigationBarLoading();
     let queryUrl = this.codeUrl();
     return new Promise((resolve, reject)=>{
       wx.request({
@@ -111,7 +123,7 @@ Page({
   },
   showImage(e){
     let src = e.currentTarget.dataset.src;
-    let urls = [...this.data.imgs.left, ...this.data.imgs.right].map(item=>item.middle);
+    let urls = this.data.org.map(item=>item.middle);
     console.log(urls);
     wx.previewImage({
       current: src,
