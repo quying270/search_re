@@ -1,7 +1,6 @@
 // pages/home/list.js
 
-//&word=%E7%8C%AB&pn=60&rn=30
-let url ="https://image.baidu.com/search/acjson?tn=resultjson_com&ipn=rj";
+const ults = require("../../ults/ults.js");
 
 Page({
 
@@ -70,7 +69,7 @@ Page({
   query(){
     //显示加载动画
     wx.showNavigationBarLoading();
-    let queryUrl = this.codeUrl();
+    let queryUrl = ults.imgQueryUrl(this.data.word, this.data.page, this.data.row);
     return new Promise((resolve, reject)=>{
       wx.request({
         url: queryUrl,
@@ -89,8 +88,8 @@ Page({
         codeData.push(Object.assign({
           thumb: img.thumbURL, //小图
           middle: img.middleURL, //中图
-          obj: img.objURL //大图
-        }, this.zoom(img)));
+          obj: ults.imgUrlEncode(img.objURL) //大图
+        }, ults.zoom(img)));
       }
     })
     return codeData;
@@ -104,6 +103,7 @@ Page({
   //下载图片
   download(e){
     let src = e.currentTarget.dataset.src;
+    let src2 = e.currentTarget.dataset.src2;
     console.log(src);
     wx.downloadFile({
       url: src, 
@@ -118,9 +118,26 @@ Page({
             }
           });
         }
+      },
+      fail(res){
+        wx.downloadFile({
+          url: src2,
+          success(res) {
+            if (res.statusCode === 200) {
+              console.log(res.tempFilePath);
+              wx.saveImageToPhotosAlbum({
+                filePath: res.tempFilePath,
+                success(res) {
+                  console.log(res);
+                }
+              });
+            }
+          }
+        });
       }
     })
   },
+  //点击显示图片
   showImage(e){
     let src = e.currentTarget.dataset.src;
     let urls = this.data.org.map(item=>item.middle);
@@ -129,68 +146,5 @@ Page({
       current: src,
       urls: urls
     });
-  },
-  //宽高同比缩放
-  zoom(img){
-    let zoom = 100/img.width;
-    return {
-      width : img.width * zoom,
-      height : img.height * zoom
-    };
-  },
-  codeUrl: function () {
-    let urlTmp = url + "&word=" + this.data.word
-      + "&pn=" + (this.data.page * this.data.row - this.data.row)
-      + "$rn=" + this.data.row;
-    console.log(urlTmp);
-    return urlTmp;
-  },
-  /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
-  onReady: function () {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面显示
-   */
-  onShow: function () {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面隐藏
-   */
-  onHide: function () {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面卸载
-   */
-  onUnload: function () {
-
-  },
-
-  /**
-   * 页面相关事件处理函数--监听用户下拉动作
-   */
-  onPullDownRefresh: function () {
-
-  },
-
-  /**
-   * 页面上拉触底事件的处理函数
-   */
-  onReachBottom: function () {
-
-  },
-
-  /**
-   * 用户点击右上角分享
-   */
-  onShareAppMessage: function () {
-
   }
 })
