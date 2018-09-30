@@ -70,10 +70,10 @@ function imgUrlEncode (imgUrl) {
       psw[0] = "_z2C\\$q";
     }
     code.push(encryption[psw] ? encryption[psw] : psw[0]);
-    console.log("psw=" + psw + "; psw0=" + psw[0]);
+    //console.log("psw=" + psw + "; psw0=" + psw[0]);
   }
-  console.log(imgUrl);
-  console.log(code);
+  //console.log(imgUrl);
+  //console.log(code);
   return code.join("");
 }
 

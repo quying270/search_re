@@ -8,7 +8,7 @@
 <template name="item">
   <view class='imgs-item'>
     <image src='{{thumb}}' mode='widthFix' bindtap='showImage' data-src="{{middle}}"></image>
-    <!-- <image class='download-btn' src='/images/down.png' bindtap='download' data-src="{{obj}}" data-src2="{{middle}}"></image> -->
-    <image class='download-btn' src='/images/down.png' bindtap='download' data-src="{{obj}}"></image>
+    <image class='download-btn' src='/images/down.png' bindtap='download' data-src="{{obj}}" data-src2="{{middle}}"></image>
+    <!-- <image class='download-btn' src='/images/down.png' bindtap='download' data-src="{{obj}}"></image> -->
   </view>
 </template>
